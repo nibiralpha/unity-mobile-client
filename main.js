@@ -560,8 +560,8 @@ var SocketService = /** @class */ (function () {
         var _this = this;
         this.http = http;
         this.listener = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-        this.SERVER_URL = 'https://unity-mobile-node.herokuapp.com';
-        this.SERVER_URL_WS = 'wss://unity-mobile-node.herokuapp.com';
+        this.SERVER_URL = 'https://unity-mobile-backend.herokuapp.com';
+        this.SERVER_URL_WS = 'ws://unity-mobile-backend.herokuapp.com';
         this.roomId = 'etNG3V61LWS6Pzkeb_omuZGMVAOLd1_70tRQblVizWQ~';
         this.socket = new WebSocket(this.SERVER_URL_WS);
         this.socket.onopen = function () {
@@ -574,7 +574,12 @@ var SocketService = /** @class */ (function () {
             });
         };
         this.socket.onmessage = function (e) {
-            _this.listener.emit({ 'type': 'message', 'data': JSON.parse(e.data) });
+            if (e.data !== "ping") {
+                _this.listener.emit({ 'type': 'message', 'data': JSON.parse(e.data) });
+            }
+            else {
+                console.log(e);
+            }
         };
     }
     SocketService.prototype.getChat = function () {
